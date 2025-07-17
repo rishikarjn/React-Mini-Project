@@ -1,89 +1,78 @@
-import React, {useState} from "react";
-import {useEffect} from "react";
+
 import './App.css';
+import React,{useState} from "react";
 
 function App() {
-  const [city,setCity] = useState("Patna");
-  const [weatherData,setWeatherData] = useState(null);
-   const [error, setError] = useState(null);
+   
+  const [weight,setWeight]=useState(0);
+  const [height,setHeight]=useState(0);
+  const [bmi,setBmi]=useState(' ');
+  const [message,setMessage]=useState(' ');
+  // const [reload,setReload] =useState(' ');
+  
 
 
+  //Logic 
+  let calcBmi=(e)=>{
+     e.preventDefault();
+         
+          if(weight===0 || height===0){
+            alert('please enter a valid weight and height')
+          }
+          else{
+            let bmi=(weight/(height*height)*703)
+            setBmi(bmi.toFixed(1))
 
-const currentDate=new Date();
-const months=[
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-const month=months[currentDate.getMonth()];
-const day=currentDate.getDate();
-const year=currentDate.getFullYear();
-const formattedDate =   `${month} ${day}, ${year}`;
-
-const API_KEY ="bcda10ba323e88e96cb486015a104d1d";
-
-const fetchWeatherData = async() =>{
-  try{
-    const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric `);
-
-      const data = await response.json();
-      console.log(data);
-      setWeatherData(data)
+            if(bmi<25){
+              setMessage('you are underweight')
+            }
+             else if(bmi>=25 && bmi<30){
+              setMessage('you are a healthy weight')
+             }
+             else{
+              setMessage('you are overweight')
+             }
+          }
   }
-  catch (error){
-    console.log(error)
-  }
+
+let reload =() =>{
+  window.location.reload()
+
 }
 
-useEffect(()=>{
-  fetchWeatherData();
-},[])
-
-const handleInputChange=(event) =>{
-  console.log(event.target.value);
-  setCity(event.target.value);
-}
-const handleSubmit=(event)=>{
-  event.preventDefault();
-  fetchWeatherData();
-}
 
 
 return (
     <div className="App">
       <div className='container'>
-        {weatherData && (
-          <>
-        
-        <h1 className='container_date'>{formattedDate }</h1>
-        <div className='weather_date'>
-          <h2 className='container_city'>{weatherData.name}</h2>
-          <img className='container_img' src='./thunder.png' width="180px" alt='thunder'/>
-          <h2 className='container_degree'>{weatherData.main.temp}</h2>
-          <h2 className='country_per'>{weatherData.weather[0].main}<span className="degree_icon"></span></h2>
+     <h2>BMI Calculator</h2>
+     <form onSubmit={calcBmi}>
+      <div>
+        <label>Weight (ibs): </label>
+        <input type="text" placeholder='Enter Weight value'  value={weight}
+        onChange={(e) => setWeight(e.target.value)} />
+         </div>
 
-          <form className='form' onSubmit={handleSubmit}>
-            <input type='text' className='input' placeholder='Enter city name' onChange={handleInputChange}></input>
-            <button type='submit'>Get</button>
-          </form>
-        </div>
-         </>
-        )}
- 
-      </div>
+      <div>
+        <label>Height (in): </label>
+        <input type="text" placeholder='Enter Height value'  value={height}
+        onChange={(e) => setHeight(e.target.value)} />
+         </div>
+
+         <div>
+          <button className='btn' type='submit'>Submit</button>
+          <button className='btn btn-outline' onClick={reload} type='submit'>Reload</button>
+         </div>
+
+         <div className='center'>
+          <h3>Your BMI is: {bmi}</h3>
+          <p>{message}</p>
+         </div>
+           
+     </form>
+    </div>
     </div>
   );
-   
 }
 
 export default App;
