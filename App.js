@@ -1,76 +1,34 @@
 
 import './App.css';
-import React,{useState} from "react";
 
 function App() {
-   
-  const [weight,setWeight]=useState(0);
-  const [height,setHeight]=useState(0);
-  const [bmi,setBmi]=useState(' ');
-  const [message,setMessage]=useState(' ');
-  // const [reload,setReload] =useState(' ');
-  
-
-
-  //Logic 
-  let calcBmi=(e)=>{
-     e.preventDefault();
-         
-          if(weight===0 || height===0){
-            alert('please enter a valid weight and height')
-          }
-          else{
-            let bmi=(weight/(height*height)*703)
-            setBmi(bmi.toFixed(1))
-
-            if(bmi<25){
-              setMessage('you are underweight')
-            }
-             else if(bmi>=25 && bmi<30){
-              setMessage('you are a healthy weight')
-             }
-             else{
-              setMessage('you are overweight')
-             }
-          }
-  }
-
-let reload =() =>{
-  window.location.reload()
-
-}
-
-
-
-return (
+  return (
     <div className="App">
-      <div className='container'>
-     <h2>BMI Calculator</h2>
-     <form onSubmit={calcBmi}>
-      <div>
-        <label>Weight (ibs): </label>
-        <input type="text" placeholder='Enter Weight value'  value={weight}
-        onChange={(e) => setWeight(e.target.value)} />
-         </div>
+      <div className="logo-box">
+        <img src="./Twitter.png" alt="logo" className="logo" />
+        <h2>Sign In to Twitter</h2>
+        <button>
+          <img src="./Google.png" alt="logo"  />
+          Sign in with Google
+        </button>
+        <button>
+          <img src="./Apple.png" alt="logo"  />
+          Sign in with Google
+        </button>
 
-      <div>
-        <label>Height (in): </label>
-        <input type="text" placeholder='Enter Height value'  value={height}
-        onChange={(e) => setHeight(e.target.value)} />
-         </div>
+        <hr></hr>
+        <span>Or</span>
 
-         <div>
-          <button className='btn' type='submit'>Submit</button>
-          <button className='btn btn-outline' onClick={reload} type='submit'>Reload</button>
-         </div>
+        <form>
+          <input type="text" placeholder="Phone email or usernaame" />
+          <button>Next</button>
 
-         <div className='center'>
-          <h3>Your BMI is: {bmi}</h3>
-          <p>{message}</p>
-         </div>
-           
-     </form>
-    </div>
+          </form>
+        <button>Forget Password</button>
+          <p>
+            Don't Have an account <a>Sign Up</a>
+          </p>
+      </div>
     </div>
   );
 }
